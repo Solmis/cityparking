@@ -1,0 +1,43 @@
+package net.solmis.cityparking;
+
+import net.solmis.cityparking.requests.*;
+
+public class RequestService {
+    private static RequestService ourInstance = new RequestService();
+
+    public static RequestService getInstance() {
+        return ourInstance;
+    }
+
+    private RequestService() {
+    }
+
+    public StartParkingResponse serveStartParkingRequest(StartParkingRequest request) {
+        Ticket newTicket = Ticket.createTicketAndSetStartTimestamp(request.parkedVehicle);
+        newTicket.save();
+        return StartParkingResponse.from(newTicket);
+    }
+
+    public EndParkingResponse serveEndParkingRequest(EndParkingRequest request) {
+        Ticket correspondingTicket = Ticket.get(request.parkingTicketId);
+        if (correspondingTicket == null)
+            return EndParkingResponse.createInvalidTicketResponse(request.parkingTicketId);
+        else {
+            correspondingTicket.setEndTimestamp();
+            correspondingTicket.save();
+            return EndParkingResponse.from(correspondingTicket);
+        }
+    }
+
+    public CheckVehicleResponse serveCheckVehicleRequest(CheckVehicleRequest request) {
+        return CheckVehicleResponse.from(request.parkedVehicle);
+    }
+
+    public GetParkingReceiptResponse serveGetParkingReceiptRequest(GetParkingReceiptRequest request) {
+        Ticket correspondingTicket = Ticket.get(request.parkingTicketId);
+        if (correspondingTicket == null || correspondingTicket.isActive())
+            return GetParkingReceiptResponse.createInvalidTicketResponse(request.parkingTicketId);
+        else
+            return GetParkingReceiptResponse.from(correspondingTicket);
+    }
+}
