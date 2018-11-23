@@ -2,7 +2,7 @@ package net.solmis.cityparking.requests;
 
 import net.solmis.cityparking.VehicleId;
 
-public class StartParkingRequest extends Request {
+public class StartParkingRequest {
     public VehicleId parkedVehicle;
 
     public StartParkingRequest(VehicleId parkedVehicle) {

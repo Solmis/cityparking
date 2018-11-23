@@ -1,9 +1,9 @@
 package net.solmis.cityparking.requests;
 
-public class EndParkingRequest extends Request {
-    public int parkingTicketId;
+public class EndParkingRequest {
+    public long parkingTicketId;
 
-    public EndParkingRequest(int parkingTicketId) {
+    public EndParkingRequest(long parkingTicketId) {
         this.parkingTicketId = parkingTicketId;
     }
 }

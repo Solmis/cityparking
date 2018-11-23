@@ -5,8 +5,8 @@ import java.util.Map;
 
 public class FakeDatabaseService {
     private static FakeDatabaseService ourInstance = new FakeDatabaseService();
-    private Map<Integer, Ticket> tickets;
-    private int nextTicketId;
+    private Map<Long, Ticket> tickets;
+    private long nextTicketId;
 
     public static FakeDatabaseService getInstance() {
         return ourInstance;
@@ -17,8 +17,8 @@ public class FakeDatabaseService {
         this.tickets = new HashMap<>();
     }
 
-    public int insert(Ticket ticket) {
-        int id = this.nextTicketId;
+    public long insert(Ticket ticket) {
+        long id = this.nextTicketId;
         this.nextTicketId++;
         this.tickets.put(id, ticket);
         return id;
@@ -31,7 +31,7 @@ public class FakeDatabaseService {
             handleRecordNotFound();
     }
 
-    public Ticket getTicket(int id) {
+    public Ticket getTicket(long id) {
         return this.tickets.get(id);
     }
 

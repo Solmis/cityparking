@@ -3,7 +3,7 @@ package net.solmis.cityparking;
 import java.time.ZonedDateTime;
 
 public class Ticket {
-    private int id;
+    private long id;
     private VehicleId vehicleId;
     private ZonedDateTime startTimestamp;
     private ZonedDateTime endTimestamp;
@@ -18,7 +18,7 @@ public class Ticket {
         return newTicket;
     }
 
-    public static Ticket get(int id) {
+    public static Ticket get(long id) {
         return FakeDatabaseService.getInstance().getTicket(id);
     }
 
@@ -37,7 +37,11 @@ public class Ticket {
             this.id = FakeDatabaseService.getInstance().insert(this);
     }
 
-    public int getId() {
+    public long getParkingTimeInSeconds() {
+        return this.endTimestamp.toEpochSecond() - this.startTimestamp.toEpochSecond();
+    }
+
+    public long getId() {
         return this.id;
     }
 

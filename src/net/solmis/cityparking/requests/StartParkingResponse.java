@@ -6,11 +6,11 @@ import net.solmis.cityparking.VehicleId;
 import java.time.ZonedDateTime;
 
 public class StartParkingResponse extends Response {
-    public int ticketId;
+    public long ticketId;
     public ZonedDateTime startTimestamp;
     public VehicleId vehicleId;
 
-    private StartParkingResponse(int ticketId, ZonedDateTime startTimestamp, VehicleId vehicleId) {
+    private StartParkingResponse(long ticketId, ZonedDateTime startTimestamp, VehicleId vehicleId) {
         this.ticketId = ticketId;
         this.startTimestamp = startTimestamp;
         this.vehicleId = vehicleId;

@@ -3,9 +3,9 @@ package net.solmis.cityparking.requests;
 import net.solmis.cityparking.Ticket;
 
 public class EndParkingResponse extends  Response {
-    public int ticketId;
+    public long ticketId;
 
-    private EndParkingResponse(int ticketId) {
+    private EndParkingResponse(long ticketId) {
         this.ticketId = ticketId;
     }
 
@@ -15,7 +15,7 @@ public class EndParkingResponse extends  Response {
         return response;
     }
 
-    public static EndParkingResponse createInvalidTicketResponse(int ticketId) {
+    public static EndParkingResponse createInvalidTicketResponse(long ticketId) {
         EndParkingResponse response = new EndParkingResponse(ticketId);
         response.responseCode = RESPONSE_INVALID_INPUT;
         response.message = "Invalid ticket ID passed.";
