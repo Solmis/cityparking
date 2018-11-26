@@ -1,12 +1,21 @@
 package net.solmis.cityparking;
 
 import net.solmis.cityparking.exceptions.CurrencyNotSupportedException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.util.Currency;
 
+@Component
 public class RateCalculator {
 
     private static long centsForUnit = 100;
+    private static String defaultCurrencyCode;
+
+    @Value("${config.defaultCurrency}")
+    public void setDefaultCurrencyCode(String code) {
+        defaultCurrencyCode = code;
+    }
 
     public static long calculateRegularCostInCents(long totalSeconds, Currency currency) throws CurrencyNotSupportedException {
         long parkingHours = RateCalculator.toParkingHours(totalSeconds);
@@ -58,9 +67,9 @@ public class RateCalculator {
     }
 
     private static double getCurrencyFactor(Currency currency) throws CurrencyNotSupportedException {
-        //if (currency.equals(Application.getInstance().getDefaultCurrency()))
+        if (currency.getCurrencyCode().equals(defaultCurrencyCode))
             return 1.0;
-        //else
-        //    throw new CurrencyNotSupportedException();
+        else
+            throw new CurrencyNotSupportedException();
     }
 }
