@@ -2,25 +2,29 @@ package net.solmis.cityparking;
 
 import net.solmis.cityparking.requests.*;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.Currency;
 
-public class RequestService {
-    private static RequestService ourInstance = new RequestService();
+@RestController
+public class RequestController {
 
-    public static RequestService getInstance() {
-        return ourInstance;
+    @Value("${config.defaultCurrency}")
+    private String defaultCurrencyCode;
+
+    public RequestController() {
     }
 
-    private RequestService() {
-    }
-
-    public StartParkingResponse serveStartParkingRequest(StartParkingRequest request) {
+    @PostMapping("/startParking")
+    public StartParkingResponse serveStartParkingRequest(@RequestBody StartParkingRequest request) {
         Ticket newTicket = Ticket.createTicketAndSetStartTimestamp(request.parkedVehicle);
         newTicket.save();
         return StartParkingResponse.from(newTicket);
     }
 
-    public EndParkingResponse serveEndParkingRequest(EndParkingRequest request) {
+    @PostMapping("/endParking")
+    public EndParkingResponse serveEndParkingRequest(@RequestBody EndParkingRequest request) {
         Ticket correspondingTicket = Ticket.get(request.parkingTicketId);
         if (correspondingTicket == null)
             return EndParkingResponse.createInvalidTicketResponse(request.parkingTicketId);
@@ -31,11 +35,13 @@ public class RequestService {
         }
     }
 
-    public CheckVehicleResponse serveCheckVehicleRequest(CheckVehicleRequest request) {
+    @PostMapping("/checkVehicle")
+    public CheckVehicleResponse serveCheckVehicleRequest(@RequestBody CheckVehicleRequest request) {
         return CheckVehicleResponse.from(request.parkedVehicle);
     }
 
-    public GetParkingReceiptResponse serveGetParkingReceiptRequest(GetParkingReceiptRequest request) {
+    @PostMapping("/getParkingReceipt")
+    public GetParkingReceiptResponse serveGetParkingReceiptRequest(@RequestBody GetParkingReceiptRequest request) {
         Ticket correspondingTicket = Ticket.get(request.parkingTicketId);
         if (correspondingTicket == null)
             return GetParkingReceiptResponse.createInvalidTicketResponse(request.parkingTicketId,
@@ -43,9 +49,10 @@ public class RequestService {
         else if (correspondingTicket.isActive())
             return GetParkingReceiptResponse.createInvalidTicketResponse(request.parkingTicketId,
                     "First end parking before trying to get a receipt.");
-        else {
-            Currency currency = Application.getInstance().getDefaultCurrency();
-            return createGetParkingReceiptResponse(correspondingTicket, request.driverType, currency);
+        else
+        {
+            Currency defaultCurrency = Currency.getInstance(defaultCurrencyCode);
+            return createGetParkingReceiptResponse(correspondingTicket, request.driverType, defaultCurrency);
         }
     }
 

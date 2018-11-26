@@ -1,25 +1,13 @@
 package net.solmis.cityparking;
 
-import java.util.Currency;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@SpringBootApplication
 public class Application {
 
-    private Currency defaultCurrency;
-
-    private static Application ourInstance = new Application();
-
-    public static Application getInstance() {
-        return ourInstance;
-    }
-
-    private Application() {
-        this.defaultCurrency = Currency.getInstance("PLN");
-    }
-
     public static void main(String args[]) {
+        SpringApplication.run(Application.class, args);
     }
 
-    public Currency getDefaultCurrency() {
-        return this.defaultCurrency;
-    }
 }

@@ -58,9 +58,9 @@ public class RateCalculator {
     }
 
     private static double getCurrencyFactor(Currency currency) throws CurrencyNotSupportedException {
-        if (currency.equals(Application.getInstance().getDefaultCurrency()))
+        //if (currency.equals(Application.getInstance().getDefaultCurrency()))
             return 1.0;
-        else
-            throw new CurrencyNotSupportedException();
+        //else
+        //    throw new CurrencyNotSupportedException();
     }
 }
