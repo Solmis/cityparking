@@ -14,7 +14,6 @@ public class StartParkingResponse extends Response {
         this.ticketId = ticketId;
         this.startTimestamp = startTimestamp;
         this.vehicleId = vehicleId;
-        this.responseCode = RESPONSE_OK;
     }
 
     public static StartParkingResponse from(Ticket ticket) {

@@ -12,7 +12,7 @@ public class CheckVehicleResponse extends Response {
         this.hasTicket = hasTicket;
     }
 
-    public static CheckVehicleResponse from(VehicleId vehicleId) {
-        return new CheckVehicleResponse(vehicleId, Ticket.existsFor(vehicleId));
+    public static Response from(VehicleId parkedVehicle) {
+        return new CheckVehicleResponse(parkedVehicle, Ticket.existsFor(parkedVehicle));
     }
 }
