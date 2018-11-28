@@ -19,7 +19,7 @@ public class EndParkingController {
     @PostMapping("/endParking")
     public ResponseEntity<Response> endParking(@Valid @RequestBody EndParkingRequest request) {
 
-        Ticket correspondingTicket = Ticket.get(request.parkingTicketId);
+        Ticket correspondingTicket = Ticket.get(request.ticketId);
         if (correspondingTicket == null)
             return new ResponseEntity<>(new ErrorResponse("Invalid ticket ID."), HttpStatus.BAD_REQUEST);
 

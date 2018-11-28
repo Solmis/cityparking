@@ -14,16 +14,16 @@ public class GetParkingReceiptRequest {
 
     private static ArrayList<String> driverTypes;
 
-    @Positive(message="Attribute parkingTicketId should be a positive number.")
-    public long parkingTicketId;
+    @Positive(message="Attribute ticketId should be a positive number.")
+    public long ticketId;
 
     @NotNull(message="Attribute driverType is required.")
     public String driverType;
 
     @JsonCreator
-    public GetParkingReceiptRequest(@JsonProperty("parkingTicketId") final long parkingTicketId,
+    public GetParkingReceiptRequest(@JsonProperty("ticketId") final long ticketId,
                                     @JsonProperty("driverType") final String driverType) {
-        this.parkingTicketId = parkingTicketId;
+        this.ticketId = ticketId;
         this.driverType = driverType;
     }
 

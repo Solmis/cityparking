@@ -14,4 +14,8 @@ public class VehicleId {
     public int hashCode() {
         return this.licensePlate.hashCode();
     }
+
+    public String toString() {
+        return this.licensePlate;
+    }
 }

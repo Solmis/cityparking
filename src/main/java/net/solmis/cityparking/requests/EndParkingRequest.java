@@ -7,11 +7,11 @@ import javax.validation.constraints.Positive;
 
 public class EndParkingRequest {
 
-    @Positive(message="Attribute parkingTicketId should be a positive number.")
-    public long parkingTicketId;
+    @Positive(message="Attribute ticketId should be a positive number.")
+    public long ticketId;
 
     @JsonCreator
-    public EndParkingRequest(@JsonProperty("parkingTicketId") final long parkingTicketId) {
-        this.parkingTicketId = parkingTicketId;
+    public EndParkingRequest(@JsonProperty("ticketId") final long ticketId) {
+        this.ticketId = ticketId;
     }
 }

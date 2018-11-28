@@ -28,7 +28,7 @@ public class GetParkingReceiptController {
     @PostMapping("/getParkingReceipt")
     public ResponseEntity<Response> getParkingReceipt(@Valid @RequestBody GetParkingReceiptRequest request) {
 
-        Ticket correspondingTicket = Ticket.get(request.parkingTicketId);
+        Ticket correspondingTicket = Ticket.get(request.ticketId);
         if (correspondingTicket == null)
             return new ResponseEntity<>(new ErrorResponse("No corresponding ticket for given ID."),
                     HttpStatus.BAD_REQUEST);
