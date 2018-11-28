@@ -32,9 +32,9 @@ public class Ticket {
 
     public void save() {
         if (isRecord())
-            FakeDatabaseService.getInstance().update(this);
+            FakeDatabaseService.getInstance().updateTicket(this);
         else
-            this.id = FakeDatabaseService.getInstance().insert(this);
+            this.id = FakeDatabaseService.getInstance().insertTicket(this);
     }
 
     public long getParkingTimeInSeconds() {

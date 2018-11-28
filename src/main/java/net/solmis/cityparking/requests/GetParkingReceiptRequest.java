@@ -21,7 +21,7 @@ public class GetParkingReceiptRequest {
     public String driverType;
 
     @JsonCreator
-    public GetParkingReceiptRequest(@JsonProperty("parkedVehicle") final long parkingTicketId,
+    public GetParkingReceiptRequest(@JsonProperty("parkingTicketId") final long parkingTicketId,
                                     @JsonProperty("driverType") final String driverType) {
         this.parkingTicketId = parkingTicketId;
         this.driverType = driverType;

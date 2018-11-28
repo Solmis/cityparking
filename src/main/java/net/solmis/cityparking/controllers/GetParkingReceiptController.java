@@ -1,5 +1,6 @@
 package net.solmis.cityparking.controllers;
 
+import net.solmis.cityparking.Payment;
 import net.solmis.cityparking.RateCalculator;
 import net.solmis.cityparking.Ticket;
 import net.solmis.cityparking.exceptions.CurrencyNotSupportedException;
@@ -10,12 +11,12 @@ import net.solmis.cityparking.requests.Response;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.time.ZonedDateTime;
 import java.util.Currency;
 
 @RestController
@@ -40,6 +41,7 @@ public class GetParkingReceiptController {
         Currency defaultCurrency = Currency.getInstance(defaultCurrencyCode);
         try {
             GetParkingReceiptResponse response = createResponse(correspondingTicket, request.driverType, defaultCurrency);
+            createFakePayment(response);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (CurrencyNotSupportedException e) {
             return new ResponseEntity<>(new ErrorResponse("Currency not supported."), HttpStatus.BAD_REQUEST);
@@ -55,11 +57,23 @@ public class GetParkingReceiptController {
         return null;
     }
 
+    // TODO: Remove it after payment handling is added
+    private void createFakePayment(GetParkingReceiptResponse response) {
+        Payment fakePayment = new Payment();
+        fakePayment.currencyCode = response.currency;
+        fakePayment.timestamp = ZonedDateTime.now();
+        fakePayment.amountInCents = response.totalPriceInCents;
+        fakePayment.amountInDefaultCurrency = response.totalPriceInDefaultCurrency;
+        fakePayment.save();
+    }
+
     private GetParkingReceiptResponse createForRegular(Ticket ticket, Currency currency)
             throws CurrencyNotSupportedException {
         GetParkingReceiptResponse response = createResponseDriverIndependent(ticket, currency);
         response.driverType = GetParkingReceiptRequest.DRIVER_REGULAR;
         response.totalPriceInCents = RateCalculator.calculateRegularCostInCents(response.totalTimeInSeconds, currency);
+        response.totalPriceInDefaultCurrency = RateCalculator.calculateRegularCostInCents(response.totalTimeInSeconds,
+                                                Currency.getInstance(defaultCurrencyCode));
         return response;
     }
 
@@ -68,6 +82,8 @@ public class GetParkingReceiptController {
         GetParkingReceiptResponse response = createResponseDriverIndependent(ticket, currency);
         response.driverType = GetParkingReceiptRequest.DRIVER_DISABLED;
         response.totalPriceInCents = RateCalculator.calculateDisabledCostInCents(response.totalTimeInSeconds, currency);
+        response.totalPriceInDefaultCurrency = RateCalculator.calculateDisabledCostInCents(response.totalTimeInSeconds,
+                                                Currency.getInstance(defaultCurrencyCode));
         return response;
     }
 
@@ -75,6 +91,7 @@ public class GetParkingReceiptController {
         GetParkingReceiptResponse response = new GetParkingReceiptResponse();
         response.ticketId = ticket.getId();
         response.currency = currency.getCurrencyCode();
+        response.defaultCurrency = defaultCurrencyCode;
         response.totalTimeInSeconds = ticket.getParkingTimeInSeconds();
         return response;
     }
