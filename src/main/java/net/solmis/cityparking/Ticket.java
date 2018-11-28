@@ -38,7 +38,10 @@ public class Ticket {
     }
 
     public long getParkingTimeInSeconds() {
-        return this.endTimestamp.toEpochSecond() - this.startTimestamp.toEpochSecond();
+        if (isActive())
+            return ZonedDateTime.now().toEpochSecond() - this.startTimestamp.toEpochSecond();
+        else
+            return this.endTimestamp.toEpochSecond() - this.startTimestamp.toEpochSecond();
     }
 
     public long getId() {

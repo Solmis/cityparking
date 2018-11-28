@@ -1,6 +1,5 @@
 package net.solmis.cityparking;
 
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
 public class Payment {

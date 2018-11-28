@@ -14,8 +14,4 @@ public class VehicleId {
     public int hashCode() {
         return this.licensePlate.hashCode();
     }
-
-    public boolean isEmpty() {
-        return this.licensePlate == null;
-    }
 }
