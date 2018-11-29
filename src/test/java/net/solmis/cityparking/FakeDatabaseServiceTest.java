@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FakeDatabaseServiceTest {
 
-    static FakeDatabaseService fakeDb;
+    private static FakeDatabaseService fakeDb;
 
     @BeforeAll
     public static void setUp() {
