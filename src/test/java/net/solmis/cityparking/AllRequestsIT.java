@@ -2,7 +2,6 @@ package net.solmis.cityparking;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.solmis.cityparking.requests.GetParkingReceiptRequest;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -71,12 +70,11 @@ public class AllRequestsIT extends RequestIT {
     }
 
     @Test
-    public void testGetParkingReceiptBeforeStoppingTicket() throws IOException {
+    public void testGetParkingReceiptForRegularBeforeStoppingTicket() throws IOException {
         StringEntity correctParams = new StringEntity("{\"parkedVehicle\":\"WZ1344\"}");
         long ticketId = testStartParkingAndReturnTicketId(correctParams);
 
-        correctParams = new StringEntity("{\"ticketId\":" + Long.toString(ticketId) + ", \"driverType\": \"" +
-                GetParkingReceiptRequest.DRIVER_REGULAR + "\"}");
+        correctParams = new StringEntity("{\"ticketId\":" + Long.toString(ticketId) + ", \"driverType\": \"regular\"}");
         HttpResponse response = makeRequest(getParkingReceiptURL, correctParams);
         assertEquals(HttpStatus.SC_BAD_REQUEST, response.getStatusLine().getStatusCode());
     }
