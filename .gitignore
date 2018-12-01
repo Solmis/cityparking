@@ -1,3 +1,5 @@
 .idea/*
 out/*
 CityParking.iml
+target/*
+logfile.log*
