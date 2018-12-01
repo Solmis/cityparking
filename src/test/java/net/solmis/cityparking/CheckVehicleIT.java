@@ -21,12 +21,12 @@ public class CheckVehicleIT extends RequestIT {
     }
 
     @Test
-    public void checkVehicleUrlExists() throws IOException {
+    public void testUrlExists() throws IOException {
         urlExists(requestURL);
     }
 
     @Test
-    public void checkVehicleShouldReturnOKForCorrectParameters() throws IOException {
+    public void testShouldReturnOKForCorrectParameters() throws IOException {
         StringEntity correctParams = new StringEntity("{\"parkedVehicle\":\"WE12345\", \"secretToken\":\"" +
                                                         secretToken + "\"}");
         HttpResponse response = makeRequest(requestURL, correctParams);
@@ -34,7 +34,7 @@ public class CheckVehicleIT extends RequestIT {
     }
 
     @Test
-    public void checkVehicleShouldReturnUnauthorizedForIncorrectToken() throws IOException {
+    public void testShouldReturnUnauthorizedForIncorrectToken() throws IOException {
         StringEntity params = new StringEntity("{\"parkedVehicle\":\"WE12345\", \"secretToken\":\"" +
                 secretToken + "foo\"}");
         HttpResponse response = makeRequest(requestURL, params);

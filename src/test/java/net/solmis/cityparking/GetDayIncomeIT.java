@@ -21,12 +21,12 @@ public class GetDayIncomeIT extends RequestIT {
     }
 
     @Test
-    public void getDayIncomeUrlExists() throws IOException {
+    public void testUrlExists() throws IOException {
         urlExists(requestURL);
     }
 
     @Test
-    public void getDayIncomeShouldReturnOKForCorrectParameters() throws IOException {
+    public void testShouldReturnOKForCorrectParameters() throws IOException {
         StringEntity correctParams = new StringEntity("{\"day\":\"2018-01-31\", \"secretToken\":\"" +
                 secretToken + "\"}");
         HttpResponse response = makeRequest(requestURL, correctParams);
@@ -34,7 +34,7 @@ public class GetDayIncomeIT extends RequestIT {
     }
 
     @Test
-    public void getDayIncomeShouldReturnUnauthorizedForIncorrectToken() throws IOException {
+    public void testShouldReturnUnauthorizedForIncorrectToken() throws IOException {
         StringEntity params = new StringEntity("{\"day\":\"2018-01-31\", \"secretToken\":\"" +
                 secretToken + "foo\"}");
         HttpResponse response = makeRequest(requestURL, params);

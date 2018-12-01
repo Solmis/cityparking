@@ -21,12 +21,12 @@ public class StartParkingIT extends RequestIT {
     }
 
     @Test
-    public void startParkingUrlExists() throws IOException {
+    public void testUrlExists() throws IOException {
         urlExists(requestURL);
     }
 
     @Test
-    public void startParkingReturnsOKWithCorrectParameter() throws IOException {
+    public void testShouldReturnOKWithCorrectParameter() throws IOException {
         StringEntity correctParams = new StringEntity("{\"parkedVehicle\":\"WE12345\"}");
         HttpResponse response = makeRequest(requestURL, correctParams);
         assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());

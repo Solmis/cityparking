@@ -17,7 +17,7 @@ public class EndParkingIT extends RequestIT {
     }
 
     @Test
-    public void endParkingUrlExists() throws IOException {
+    public void testUrlExists() throws IOException {
         urlExists(requestURL);
     }
 }
